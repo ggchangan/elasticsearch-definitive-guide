@@ -1,15 +1,7 @@
 [[geopoints]]
 == Geo Points
 
-A _geo-point_ is a single latitude/longitude point on the Earth's surface.((("geo-points"))) Geo-points
-can be used to calculate distance from a point, to determine whether a point
-falls within a bounding box, or in aggregations.
-
 一个 _geo-point_ 代表地球表面一个经纬度点。Geo-points类型支持计算点与点之间的距离、判定一个点是否在一个包围盒或者一个聚合条件之内。
-
-Geo-points cannot be automatically detected((("dynamic mapping", "geo-points and"))) with
-<<dynamic-mapping,dynamic mapping>>. Instead, `geo_point` fields should be
-mapped ((("mapping (types)", "geo-points")))explicitly:
 
 <<dynamic-mapping,Dynamic mapping>>（动态mapping）无法自动探测出哪个域中存储的是 `geo-point` 类型的数据，因此，需要在mapping中显式地声明每个 `geo-point` 域。
 
@@ -35,10 +27,6 @@ PUT /attractions
 [[lat-lon-formats]]
 [float="true"]
 === Lat/Lon Formats
-
-With the `location` field defined as a `geo_point`, we can proceed to index
-documents containing latitude/longitude pairs,((("geo-points", "location fields defined as, lat/lon formats")))((("location field, defined as geo-point")))((("latitude/longitude pairs", "lat/lon formats for geo-points")))((("arrays", "geo-point, lon/lat format")))((("strings", "geo-point, lat/lon format")))((("objects", "geo-point, lat/lon format"))) which can be formatted as
-strings, arrays, or objects:
 
 `location` 被定义为 `geo_point` 类型之后，我们就可以继续对包含纬度/经度数据对的文档进行索引。其中，纬度/经度数据对可以定义成字符串、数组或者对象的形式。
 
@@ -74,20 +62,10 @@ PUT /attractions/restaurant/3
 [CAUTION]
 ========================
 
-Everybody gets caught at least once: string geo-points are
-`"latitude,longitude"`, while array geo-points are `[longitude,latitude]`&#x2014;the opposite order!
-
 每个人都要注意：字符串形式的geo-points是以 `"纬度,经度"` 地顺序组织，但是数组形式的geo-points却正好相反——以 `[经度,纬度]` 地顺序组织！
-
-Originally, both strings and arrays in Elasticsearch used latitude followed by
-longitude. However, it was decided early on to switch the order for arrays in
-order to conform with GeoJSON.
 
 起初，Elasticsearch中字符串和数组形式的geo-points都是以纬度在前经度在后地方式组织。但是，早期为了保持和GeoJSON的一致，数组形式的geo-points被变成了
 `[经度,纬度]` 的顺序。
-
-The result is a bear trap that captures all unsuspecting users on their
-journey to full geolocation nirvana.
 
 结果导致一些没有注意到这个这个区别的使用者陷入了地理位置的噩梦。
 
